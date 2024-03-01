@@ -77,7 +77,7 @@ from cryptidy import asymmetric_encryption
 import socket
 import subprocess
 
-HOST = '10.0.2.6' # Listen on all network interfaces
+HOST = '10.0.2.4' # Listen on all network interfaces
 PORT = 12345  # Choose a port number
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((HOST, PORT))
