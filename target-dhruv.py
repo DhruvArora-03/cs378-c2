@@ -15,6 +15,7 @@ print(f'target pub key: {pub_key}')
 s.send(pub_key)
 
 attacker_pub_key = s.recv(2048 / 8)
+print(f'attacker pub key: {attacker_pub_key}')
 
 while True:
     data = s.recv(1024)
