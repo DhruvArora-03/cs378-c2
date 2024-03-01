@@ -17,7 +17,7 @@ print(f'attacker priv key: {priv_key}')
 print(f'attacker pub key: {pub_key}')
 conn.send(pub_key.encode())
 
-target_pub_key = conn.recv(2048 / 8).decode()
+target_pub_key = conn.recv(256).decode()
 print(f'target pub key: {target_pub_key}')
 
 while True:
