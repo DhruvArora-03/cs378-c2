@@ -12,9 +12,9 @@ s.connect((HOST, PORT))
 priv_key, pub_key = asymmetric_encryption.generate_keys(2048)  # 2048 bits RSA key
 print(f'target priv key: {priv_key}')
 print(f'target pub key: {pub_key}')
-s.send(pub_key)
+s.send(pub_key.encode())
 
-attacker_pub_key = s.recv(2048 / 8)
+attacker_pub_key = s.recv(2048 / 8).decode()
 print(f'attacker pub key: {attacker_pub_key}')
 
 while True:
