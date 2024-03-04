@@ -5,7 +5,15 @@ from cryptidy import asymmetric_encryption
 HOST = '10.0.2.4' # Listen on all network interfaces
 PORT = 12345  # Choose a port number
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.bind((HOST, PORT))
+binded = False
+while not binded:
+    try:
+        s.bind((HOST, PORT))
+        binded = True
+    except OSError as e:
+        # ignore
+        pass
+
 s.listen(1)
 print(f"Listening on {HOST}:{PORT}")
 conn, addr = s.accept()
