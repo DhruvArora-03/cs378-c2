@@ -35,8 +35,10 @@ while True:
     encrypted_output = conn.recv(1024)
 
     if len(encrypted_output) > 0:
-        if encrypted_output[- len(EOF):] != EOF:
+        while encrypted_output[-len(EOF):] != EOF:
             encrypted_output += conn.recv(1024)
+        
+        encrypted_output = encrypted_output[:-len(EOF)]
         _, output = ae.decrypt_message(encrypted_output, priv_key)
         print(output, end="")
     else:
