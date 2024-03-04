@@ -33,7 +33,6 @@ while True:
     encrypted_output = conn.recv(1024)
 
     if len(encrypted_output) > 0:
-        print(len(encrypted_output))
         _, output = ae.decrypt_message(encrypted_output, priv_key)
         print(output, end="")
     else:
