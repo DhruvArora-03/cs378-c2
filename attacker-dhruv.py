@@ -23,7 +23,7 @@ print(f'target pub key: {target_pub_key}')
 while True:
     command = input("Enter command to execute or 'exit' to quit: ")
     if command.lower() == 'exit':
-        conn.send(b'exit')
+        conn.send('exit'.encode())
         conn.close()
         break
     conn.send(command.encode())
