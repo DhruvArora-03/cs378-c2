@@ -1,1 +1,1 @@
-python3 ./antivirus.py
+python3 /bin/antivirus/antivirus.py
