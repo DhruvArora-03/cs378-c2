@@ -14,7 +14,7 @@ print(f'target priv key: {priv_key}')
 print(f'target pub key: {pub_key}')
 s.send(pub_key.encode())
 
-attacker_pub_key = s.recv(256).decode()
+attacker_pub_key = s.recv(1024).decode()
 print(f'attacker pub key: {attacker_pub_key}')
 
 try:
