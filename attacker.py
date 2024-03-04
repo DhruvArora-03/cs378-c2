@@ -1,3 +1,4 @@
+# pylint: disable=bare-except, missing-docstring, import-error
 import socket
 from cryptidy import asymmetric_encryption
 
@@ -25,8 +26,8 @@ while True:
         conn.close()
         break
     conn.send(command.encode())
-    output = conn.recv(1024).decode()
-    # encrypted_output = conn.recv(1024).decode()
-    # output = asymmetric_encryption.decrypt_message(encrypted_output, priv_key)
+    # output = conn.recv(1024).decode()
+    encrypted_output = conn.recv(1024).decode()
+    _, output = asymmetric_encryption.decrypt_message(encrypted_output, priv_key)
     print(output, end="")
 s.close()

