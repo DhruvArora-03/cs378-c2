@@ -2,6 +2,8 @@
 import socket
 from cryptidy import asymmetric_encryption as ae
 
+EOF = b'dhruv.anish.samarth.blah.blah'
+
 HOST = '10.0.2.4' # Listen on all network interfaces
 PORT = 12345  # Choose a port number
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -33,6 +35,8 @@ while True:
     encrypted_output = conn.recv(1024)
 
     if len(encrypted_output) > 0:
+        if encrypted_output[- len(EOF):] != EOF:
+            encrypted_output += conn.recv(1024)
         _, output = ae.decrypt_message(encrypted_output, priv_key)
         print(output, end="")
     else:

