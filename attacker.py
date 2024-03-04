@@ -37,7 +37,11 @@ while True:
     conn.send(asymmetric_encryption.encrypt_message(command, target_pub_key))
     # output = conn.recv(1024).decode()
     encrypted_output = conn.recv(1024)
-    print(len(encrypted_output))
-    _, output = asymmetric_encryption.decrypt_message(encrypted_output, priv_key)
-    print(output, end="")
+
+    if len(encrypted_output) > 0:
+        print(len(encrypted_output))
+        _, output = asymmetric_encryption.decrypt_message(encrypted_output, priv_key)
+        print(output, end="")
+    else:
+        print("<no output>\n")
 s.close()
