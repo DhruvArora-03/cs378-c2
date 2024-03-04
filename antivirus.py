@@ -33,6 +33,8 @@ if unencrypted_password != PASSWORD:
     s.close()
     sys.exit(0)
 
+s.send('identity verified, continuing to shell access'.encode())
+
 # login was valid, continuing to shell access
 try:
     while True:
