@@ -44,5 +44,6 @@ try:
             s.send(encrypted_output)
         else:
             s.send(b' ')
-except:
+except Exception as e:
+    print(f"e: {e}")
     s.close()
