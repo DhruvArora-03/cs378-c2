@@ -1,7 +1,5 @@
-from cryptidy import asymmetric_encryption
 import socket
-import subprocess
-import base64
+from cryptidy import asymmetric_encryption
 
 HOST = '10.0.2.4' # Listen on all network interfaces
 PORT = 12345  # Choose a port number

